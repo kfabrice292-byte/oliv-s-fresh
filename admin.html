@@ -353,8 +353,12 @@
             <div id="view-products">
                 <div class="header">
                     <h1>Gestion Boutique</h1>
-                    <button class="btn-add" onclick="openProductModal()"><i class="ri-add-line"></i> Nouveau
-                        Produit</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-add" style="background-color: #666;" onclick="migrateLocalData()"><i
+                                class="ri-upload-cloud-line"></i> Migrer Local → Firebase</button>
+                        <button class="btn-add" onclick="openProductModal()"><i class="ri-add-line"></i> Nouveau
+                            Produit</button>
+                    </div>
                 </div>
                 <div class="card">
                     <table class="data-table">
@@ -416,7 +420,10 @@
                 <select id="p-category">
                     <option value="fruit">Fruits</option>
                     <option value="vegetable">Légumes</option>
-                    <option value="box">Paniers</option>
+                    <option value="aromatic">Épices & Feuilles</option>
+                    <option value="tuber">Tubercules</option>
+                    <option value="processed">Jus & Découpés</option>
+                    <option value="subscription">Paniers & Abonnements</option>
                 </select>
             </div>
             <div class="input-group">
@@ -429,6 +436,8 @@
                     <option value="kg">kg</option>
                     <option value="unité">unité</option>
                     <option value="botte">botte</option>
+                    <option value="barquette">barquette</option>
+                    <option value="1L">1L</option>
                 </select>
             </div>
             <div class="input-group">

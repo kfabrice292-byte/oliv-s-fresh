@@ -84,6 +84,7 @@ async function renderAdminTables() {
                             <option value="1L" ${p.unit === '1L' ? 'selected' : ''}>1L</option>
                         </select>
                     </td>
+                    <td>
                         <div class="status-toggle ${p.active !== false ? 'status-active' : 'status-inactive'}" 
                              onclick="toggleProductStatus('${p.id}', ${p.active !== false})">
                             <i class="${p.active !== false ? 'ri-eye-line' : 'ri-eye-off-line'}" style="margin-right:5px;"></i>
@@ -227,7 +228,7 @@ window.saveProduct = async function () {
         if (data.id) {
             await window.dataService.updateProduct(data.id, productObj);
         } else {
-            await window.dataService.saveProduct(productObj);
+            await window.dataService.addProduct(productObj);
         }
 
         closeModals();
@@ -264,7 +265,7 @@ window.saveBlogPost = async function () {
         if (id) {
             await window.dataService.updateBlogPost(id, postObj);
         } else {
-            await window.dataService.saveBlogPost(postObj);
+            await window.dataService.addBlogPost(postObj);
         }
 
         closeModals();
@@ -331,3 +332,50 @@ function resetBlogForm() {
     document.getElementById('b-image').value = '';
     document.getElementById('b-file').value = '';
 }
+
+// --- MIGRATION LOGIC (ONCE) ---
+window.migrateLocalData = async function () {
+    if (!confirm("Voulez-vous migrer tous les produits locaux vers Firebase ? (Les doublons par nom seront ignorés)")) return;
+
+    const btn = window.event.target;
+    const oldText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Migration en cours...";
+
+    try {
+        const existingProducts = await window.firebaseService.getProducts();
+        const existingNames = existingProducts.map(p => p.name.toLowerCase());
+
+        let pCount = 0;
+        for (const p of PRODUCTS_DATA) {
+            if (!existingNames.includes(p.name.toLowerCase())) {
+                const { id, ...data } = p;
+                await window.firebaseService.addProduct({ ...data, active: true });
+                pCount++;
+            }
+        }
+
+        const existingPosts = await window.firebaseService.getBlogPosts();
+        const existingTitles = existingPosts.map(p => p.title.toLowerCase());
+
+        let bCount = 0;
+        for (const b of BLOG_DATA) {
+            if (!existingTitles.includes(b.title.toLowerCase())) {
+                const { id, ...data } = b;
+                await window.firebaseService.addBlogPost(data);
+                bCount++;
+            }
+        }
+
+        alert(`Migration terminée !\nProduits ajoutés : ${pCount}\nArticles ajoutés : ${bCount}`);
+        location.reload();
+    } catch (e) {
+        console.error("Migration Error:", e);
+        alert("Erreur lors de la migration : " + e.message);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = oldText;
+        }
+    }
+};
