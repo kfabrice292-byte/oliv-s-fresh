@@ -65,7 +65,12 @@ const PRODUCTS_DATA = [
     { id: 'tr1', name: 'Salade de fruits', price: 2500, unit: 'bol', category: 'processed', image: 'img/blog-fruits.jpg', tag: 'Prêt' },
     { id: 'tr2', name: 'Ananas découpé', price: 1500, unit: 'barquette', category: 'processed', image: 'img/blog-fruits.jpg', tag: 'Prêt' },
     { id: 'tr3', name: 'Jus Frais Ananas', price: 1500, unit: '1L', category: 'processed', image: 'img/blog-juice.jpg', tag: 'Frais' },
-    { id: 'tr4', name: 'Tedoo au lait', price: 2000, unit: '1L', category: 'processed', image: 'img/blog-juice.jpg', tag: 'Spécial' }
+    { id: 'tr4', name: 'Tedoo au lait', price: 2000, unit: '1L', category: 'processed', image: 'img/blog-juice.jpg', tag: 'Spécial' },
+
+    // Potager City Inspired Baskets
+    { id: 'sub1', name: 'Petit Panier Hebdo', price: 7500, unit: 'unité', category: 'subscription', image: 'img/apple.png', tag: 'Abonnement' },
+    { id: 'sub2', name: 'Panier Famille Hebdo', price: 12500, unit: 'unité', category: 'subscription', image: 'img/oli_logo.png', tag: 'Populaire' },
+    { id: 'sub3', name: 'Panier Bureau Hebdo', price: 15000, unit: 'unité', category: 'subscription', image: 'img/blog-juice.jpg', tag: 'Entreprise' }
 ];
 
 const BLOG_DATA = [
@@ -178,7 +183,8 @@ window.getProductTag = function (cat) {
         'aromatic': 'Épices & Feuilles',
         'tuber': 'Tubercules',
         'processed': 'Transformés',
-        'box': 'Paniers'
+        'box': 'Paniers',
+        'subscription': 'Abonnements'
     };
     return tags[cat] || cat || '';
 };
