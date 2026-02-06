@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oliv's Fresh - La Fraîcheur à Portée de Main</title>
+    <meta name="description"
+        content="Découvrez Oliv's Fresh : fruits, légumes et paniers bios livrés directement chez vous. Qualité locale et fraîcheur garantie au Burkina Faso.">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://olivsfresh.com/">
+    <meta property="og:title" content="Oliv's Fresh - La Fraîcheur à Portée de Main">
+    <meta property="og:description" content="Fruits, légumes et paniers bios livrés à domicile.">
+    <meta property="og:image" content="img/oli_logo.png"> <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Oliv's Fresh - La Fraîcheur à Portée de Main">
+    <meta property="twitter:description" content="Fruits, légumes et paniers bios livrés à domicile.">
+    <meta property="twitter:image" content="img/oli_logo.png"> <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+        rel="stylesheet"> <!-- RemixIcon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css"> <!-- Favicon -->
+    <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-content">
+            <img src="img/oli_logo.png" alt="Oliv's Fresh Loader" class="loader-logo">
+        </div>
+    </div> <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">
+                <img src="img/oli_logo.png" alt="Oliv's Fresh Logo">
+            </a>
+            <div class="nav-links">
+                <a href="#accueil" class="active">Accueil</a>
+                <a href="boutique.html">Boutique</a>
+                <a href="blog.html">Blog</a>
+                <a href="#contact" class="btn-primary">Contact</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="ri-menu-4-line"></i>
+            </div>
+        </div>
+    </nav> <!-- Hero Section -->
+    <section id="accueil" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 data-aos="fade-up" data-aos-duration="1000">Fruits & légumes frais <span class="highlight">chaque
+                    jour</span></h1>
+            <p data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">Commandez facilement via WhatsApp et
+                recevez la meilleure qualité directement chez vous.</p>
+            <div class="hero-buttons" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+                <a href="https://wa.me/22677973958" class="btn-primary" target="_blank"><i class="ri-whatsapp-line"></i>
+                    Commander sur WhatsApp</a>
+                <a href="boutique.html" class="btn-secondary">Voir le Catalogue</a>
+            </div>
+        </div>
+        <!-- Decorative Elements -->
+        <div class="leaf leaf-1"></div>
+        <div class="leaf leaf-2"></div>
+    </section> <!-- Featured Products Section (Mini Boutique) -->
+    <section id="apercu-boutique" class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Nos Incontournables</h2>
+                <p>Un avant-goût de nos produits les plus frais.</p>
+            </div>
+            <div class="products-grid" id="featured-products-container">
+                <div class="loading-spinner">Chargement...</div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;" data-aos="fade-up" data-aos-delay="200">
+                <a href="boutique.html" class="btn-primary">Visiter la Boutique <i class="ri-arrow-right-line"></i></a>
+            </div>
+        </div>
+    </section> <!-- Features Section (Pourquoi Oliv's Fresh ?) -->
+    <section class="features-section">
+        <img src="img/brand-pattern.png" alt="" class="brand-pattern" data-aos="fade-left" data-aos-duration="1500">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up" style="margin-bottom: 4rem;">
+                <h2 style="color: white; border-bottom-color: rgba(255,255,255,0.2);">Pourquoi nous choisir ?</h2>
+                <p style="color: rgba(255,255,255,0.8);">L'excellence du champ à votre table.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="icon"><i class="ri-leaf-line"></i></div>
+                    <h3>100% Frais</h3>
+                    <p>Produits de saison sélectionnés chaque matin chez nos producteurs.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon"><i class="ri-rocket-line"></i></div>
+                    <h3>Livraison Rapide</h3>
+                    <p>Commandez maintenant, recevez votre panier dans la journée.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon"><i class="ri-heart-3-line"></i></div>
+                    <h3>Qualité Locale</h3>
+                    <p>Soutenez l'économie locale avec des produits sains et naturels.</p>
+                </div>
+            </div>
+        </div>
+    </section> <!-- How to Order Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Comment commander ?</h2>
+                <p>3 étapes simples pour recevoir vos produits frais.</p>
+            </div>
+            <div class="steps-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center; margin-top: 3rem;">
+                <div class="step-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="step-num"
+                        style="width: 50px; height: 50px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-weight: bold; font-size: 1.2rem;">
+                        1</div>
+                    <h3>Choisissez vos produits</h3>
+                    <p>Parcourez notre catalogue et ajoutez vos articles préférés au panier.</p>
+                </div>
+                <div class="step-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-num"
+                        style="width: 50px; height: 50px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-weight: bold; font-size: 1.2rem;">
+                        2</div>
+                    <h3>Validez votre panier</h3>
+                    <p>Vérifiez votre sélection et cliquez sur "Commander sur WhatsApp".</p>
+                </div>
+                <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-num"
+                        style="width: 50px; height: 50px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-weight: bold; font-size: 1.2rem;">
+                        3</div>
+                    <h3>Recevez vos produits</h3>
+                    <p>Nous confirmons votre commande et vous livrons à domicile.</p>
+                </div>
+            </div>
+        </div>
+    </section> <!-- Blog Teaser Section -->
+    <section id="blog" class="section bg-light">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Le Blog Fraîcheur</h2>
+                <p>Astuces, recettes et bienfaits nutritionnels.</p>
+            </div>
+            <div class="blog-grid">
+                <div class="loading-spinner">Chargement des articles...</div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;" data-aos="fade-up">
+                <a href="blog.html" class="btn-secondary">Voir tous les articles <i class="ri-arrow-right-line"></i></a>
+            </div>
+        </div>
+    </section> <!-- Footer -->
+    <footer id="contact">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h3>Oliv's Fresh</h3>
+                <p>Votre partenaire fraîcheur au quotidien.</p>
+                <div class="social-links">
+                    <a href="#"><i class="ri-facebook-fill"></i></a>
+                    <a href="#"><i class="ri-instagram-line"></i></a>
+                    <a href="#"><i class="ri-linkedin-fill"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <p><i class="ri-map-pin-line"></i> Ouagadougou, Burkina Faso</p>
+                <p><i class="ri-phone-line"></i> +226 77 97 39 58</p>
+                <p><i class="ri-mail-line"></i> contact@olivsfresh.com</p>
+            </div>
+            <div class="footer-col">
+                <h3>Liens Rapides</h3>
+                <a href="#accueil">Accueil</a>
+                <a href="boutique.html">Boutique</a>
+                <a href="#blog">Blog</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Oliv's Fresh. Tous droits réservés.</p>
+        </div>
+    </footer> <!-- Floating Cart & WhatsApp -->
+    <div class="floating-actions">
+        <button id="cart-btn" class="cart-floater">
+            <i class="ri-shopping-cart-2-fill"></i>
+            <span class="badge" id="cart-count">0</span>
+        </button>
+        <a href="https://wa.me/22677973958" class="whatsapp-floater" target="_blank">
+            <i class="ri-whatsapp-line"></i>
+        </a>
+    </div> <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal"><i class="ri-close-line"></i></span>
+            <h2><i class="ri-shopping-basket-line"></i> Votre Panier</h2>
+            <div id="cart-items" class="cart-items">
+                <!-- Cart items injected here -->
+                <p class="empty-msg">Votre panier est vide.</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cart-total-price">0 FCFA</span>
+                </div>
+                <button id="checkout-btn" class="btn-primary full-width"><i class="ri-whatsapp-line"></i> Commander sur
+                    WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts Secours (Safety Script) -->
+    <script>
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var l = document.getElementById('loader');
+                if (l) {
+                    l.style.transition = 'opacity 0.5s ease';
+                    l.style.opacity = '0';
+                    setTimeout(function () { if (l.parentNode) l.remove(); document.body.style.overflow = 'visible'; }, 500);
+                }
+            }, 3000);
+        });
+    </script>
+
+    <!-- Scripts -->
+    <!-- Firebase SDK (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+    <!-- App Initialization -->
+    <script src="js/firebase-init.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

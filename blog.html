@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Oliv's Fresh</title>
+    <meta name="description" content="Conseils, recettes et astuces sur les fruits et légumes.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+        rel="stylesheet">
+
+    <!-- RemixIcon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-content">
+            <img src="img/oli_logo.png" alt="Oliv's Fresh Loader" class="loader-logo">
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <img src="img/oli_logo.png" alt="Oliv's Fresh Logo">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Accueil</a>
+                <a href="boutique.html">Boutique</a>
+                <a href="blog.html" class="active">Blog</a>
+
+                <a href="index.html#contact" class="btn-primary">Contact</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="ri-menu-4-line"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="section" style="padding-top: 120px; padding-bottom: 2rem; background-color: var(--bg-off-white);">
+        <div class="container text-center">
+            <h1 data-aos="fade-down">Le Blog Fraîcheur</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Découvrez nos dernières recettes, astuces santé et actualités.
+            </p>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="section">
+        <div class="container">
+            <div class="blog-grid">
+                <div class="loading-spinner">Chargement du blog...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h3>Oliv's Fresh</h3>
+                <p>Votre partenaire fraîcheur au quotidien.</p>
+                <div class="social-links">
+                    <a href="#"><i class="ri-facebook-fill"></i></a>
+                    <a href="#"><i class="ri-instagram-line"></i></a>
+                    <a href="#"><i class="ri-linkedin-fill"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <p><i class="ri-map-pin-line"></i> Ouagadougou, Burkina Faso</p>
+                <p><i class="ri-phone-line"></i> +226 77 97 39 58</p>
+                <p><i class="ri-mail-line"></i> contact@olivsfresh.com</p>
+            </div>
+            <div class="footer-col">
+                <h3>Liens Rapides</h3>
+                <a href="index.html">Accueil</a>
+                <a href="boutique.html">Boutique</a>
+                <a href="blog.html">Blog</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Oliv's Fresh. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+
+
+    <!-- Firebase SDK (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+    <!-- App Initialization -->
+    <script src="js/firebase-init.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
