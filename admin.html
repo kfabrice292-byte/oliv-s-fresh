@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- RemixIcon -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="icon" href="img/favicon.png" type="image/png">
@@ -251,6 +251,56 @@
                 justify-content: center;
             }
         }
+
+        .data-table input,
+        .data-table select {
+            border: 1px solid #ddd;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .data-table input:focus,
+        .data-table select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.1);
+        }
+
+        .action-btn i {
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+
+        .ri-save-3-line:hover {
+            color: var(--secondary) !important;
+            transform: scale(1.2);
+        }
+
+        .status-toggle {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #ddd;
+        }
+
+        .status-active {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-color: #c8e6c9;
+        }
+
+        .status-inactive {
+            background-color: #ffebee;
+            color: #c62828;
+            border-color: #ffcdd2;
+        }
     </style>
 </head>
 
@@ -314,6 +364,8 @@
                                 <th>Nom</th>
                                 <th>Catégorie</th>
                                 <th>Prix</th>
+                                <th>Unité</th>
+                                <th>Statut</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>

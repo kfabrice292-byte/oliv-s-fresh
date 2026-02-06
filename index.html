@@ -22,14 +22,16 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
         rel="stylesheet"> <!-- RemixIcon -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" rel="stylesheet">
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> <!-- Styles -->
     <link rel="stylesheet" href="css/style.css"> <!-- Favicon -->
     <link rel="icon" href="img/favicon.png" type="image/png">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress"></div>
     <!-- Loading Screen -->
     <div id="loader">
         <div class="loader-content">
@@ -39,13 +41,13 @@
     <nav class="navbar">
         <div class="container nav-content">
             <a href="#" class="logo">
-                <img src="img/oli_logo.png" alt="Oliv's Fresh Logo">
+                <img src="img/oli_logo.png" alt="Oliv's Fresh - Logo Fraîcheur" width="150" height="45">
             </a>
             <div class="nav-links">
                 <a href="#accueil" class="active">Accueil</a>
                 <a href="boutique.html">Boutique</a>
                 <a href="blog.html">Blog</a>
-                <a href="#contact" class="btn-primary">Contact</a>
+                <a href="#contact-form-section" class="btn-primary">Contact</a>
             </div>
             <div class="mobile-menu-btn">
                 <i class="ri-menu-4-line"></i>
@@ -84,7 +86,8 @@
         </div>
     </section> <!-- Features Section (Pourquoi Oliv's Fresh ?) -->
     <section class="features-section">
-        <img src="img/brand-pattern.png" alt="" class="brand-pattern" data-aos="fade-left" data-aos-duration="1500">
+        <img src="img/brand-pattern.png" alt="Pattern décoratif Oliv's Fresh" class="brand-pattern" data-aos="fade-left"
+            data-aos-duration="1500" loading="lazy">
         <div class="container">
             <div class="section-header" data-aos="fade-up" style="margin-bottom: 4rem;">
                 <h2 style="color: white; border-bottom-color: rgba(255,255,255,0.2);">Pourquoi nous choisir ?</h2>
@@ -154,7 +157,80 @@
                 <a href="blog.html" class="btn-secondary">Voir tous les articles <i class="ri-arrow-right-line"></i></a>
             </div>
         </div>
-    </section> <!-- Footer -->
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact-form-section" class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Contactez-nous</h2>
+                <p>Une question ? Une commande spéciale ? Écrivez-nous !</p>
+            </div>
+
+            <div class="contact-container"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; margin-top: 3rem;">
+                <div class="contact-form" data-aos="fade-right">
+                    <form id="contact-form-element"
+                        style="background: white; padding: 2rem; border-radius: 24px; box-shadow: var(--shadow-lg);">
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Nom complet</label>
+                            <input type="text" id="contact-name" name="name" required placeholder="Votre nom"
+                                style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; font-family: var(--font-body);">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email ou
+                                Téléphone</label>
+                            <input type="text" id="contact-info" name="email" required
+                                placeholder="Comment vous recontacter ?"
+                                style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; font-family: var(--font-body);">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Votre
+                                message</label>
+                            <textarea id="contact-message" name="message" required rows="5"
+                                placeholder="Votre message..."
+                                style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; font-family: var(--font-body); resize: vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">
+                            <i class="ri-send-plane-fill"></i> Envoyer le message
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact-info-grid" data-aos="fade-left">
+                    <div style="background: var(--bg-off-white); padding: 2.5rem; border-radius: 24px; height: 100%;">
+                        <h3 style="margin-bottom: 2rem;">Nos Coordonnées</h3>
+                        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div style="color: var(--primary-color); font-size: 1.8rem;"><i
+                                    class="ri-map-pin-2-line"></i></div>
+                            <div>
+                                <h4 style="margin: 0; color: #333; font-size: 1.1rem;">Adresse</h4>
+                                <p style="margin: 5px 0 0; color: #666;">Ouagadougou, Burkina Faso</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div style="color: var(--primary-color); font-size: 1.8rem;"><i
+                                    class="ri-whatsapp-line"></i></div>
+                            <div>
+                                <h4 style="margin: 0; color: #333; font-size: 1.1rem;">WhatsApp</h4>
+                                <p style="margin: 5px 0 0; color: #666;">+226 77 97 39 58</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div style="color: var(--primary-color); font-size: 1.8rem;"><i class="ri-mail-line"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; color: #333; font-size: 1.1rem;">Email</h4>
+                                <p style="margin: 5px 0 0; color: #666;">oliviagouba@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer id="contact">
         <div class="container footer-content">
             <div class="footer-col">
@@ -170,7 +246,7 @@
                 <h3>Contact</h3>
                 <p><i class="ri-map-pin-line"></i> Ouagadougou, Burkina Faso</p>
                 <p><i class="ri-phone-line"></i> +226 77 97 39 58</p>
-                <p><i class="ri-mail-line"></i> contact@olivsfresh.com</p>
+                <p><i class="ri-mail-line"></i> oliviagouba@gmail.com</p>
             </div>
             <div class="footer-col">
                 <h3>Liens Rapides</h3>
@@ -211,18 +287,18 @@
         </div>
     </div>
 
-    <!-- Scripts Secours (Safety Script) -->
+    <!-- Sécurité Anti-Blocage -->
     <script>
-        window.addEventListener('load', function () {
+        // Si le script principal ne finit pas, on force l'affichage
+        window.onload = function () {
             setTimeout(function () {
-                var l = document.getElementById('loader');
-                if (l) {
-                    l.style.transition = 'opacity 0.5s ease';
-                    l.style.opacity = '0';
-                    setTimeout(function () { if (l.parentNode) l.remove(); document.body.style.overflow = 'visible'; }, 500);
+                var loader = document.getElementById('loader');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(function () { if (loader.parentNode) loader.remove(); document.body.style.overflow = 'visible'; }, 500);
                 }
-            }, 3000);
-        });
+            }, 1000);
+        };
     </script>
 
     <!-- Scripts -->

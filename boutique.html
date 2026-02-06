@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique - Oliv's Fresh</title>
+    <title>Boutique - Fruits & Légumes Frais | Oliv's Fresh</title>
     <meta name="description" content="Catalogue complet de fruits et légumes frais. Commandez en ligne.">
 
     <!-- Google Fonts -->
@@ -14,8 +14,7 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
         rel="stylesheet">
 
-    <!-- RemixIcon -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" rel="stylesheet">
 
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -27,7 +26,9 @@
     <link rel="icon" href="img/favicon.png" type="image/png">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress"></div>
     <!-- Loading Screen -->
     <div id="loader">
         <div class="loader-content">
@@ -39,14 +40,14 @@
     <nav class="navbar">
         <div class="container nav-content">
             <a href="index.html" class="logo">
-                <img src="img/oli_logo.png" alt="Oliv's Fresh Logo">
+                <img src="img/oli_logo.png" alt="Oliv's Fresh - Retour Accueil" width="150" height="45">
             </a>
             <div class="nav-links">
                 <a href="index.html">Accueil</a>
                 <a href="boutique.html" class="active">Boutique</a>
                 <a href="blog.html">Blog</a>
 
-                <a href="index.html#contact" class="btn-primary">Contact</a>
+                <a href="index.html#contact-form-section" class="btn-primary">Contact</a>
             </div>
             <div class="mobile-menu-btn">
                 <i class="ri-menu-4-line"></i>
@@ -65,6 +66,17 @@
     <!-- Catalog Section -->
     <section id="boutique" class="section">
         <div class="container">
+            <!-- Search Bar -->
+            <div class="search-container" data-aos="fade-up"
+                style="margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <div class="search-wrapper" style="position: relative;">
+                    <i class="ri-search-line"
+                        style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-gray); font-size: 1.2rem;"></i>
+                    <input type="text" id="product-search" placeholder="Rechercher un produit (mangue, tomate, miel...)"
+                        style="width: 100%; padding: 12px 15px 12px 45px; border-radius: 50px; border: 2px solid #eee; font-family: var(--font-body); font-size: 1rem; outline: none; transition: var(--transition);">
+                </div>
+            </div>
+
             <!-- Category Filter -->
             <div class="filters" data-aos="fade-up">
                 <button class="filter-btn active" data-filter="all"><i class="ri-apps-line"></i> Tout</button>
@@ -132,7 +144,7 @@
                 <h3>Contact</h3>
                 <p><i class="ri-map-pin-line"></i> Ouagadougou, Burkina Faso</p>
                 <p><i class="ri-phone-line"></i> +226 77 97 39 58</p>
-                <p><i class="ri-mail-line"></i> contact@olivsfresh.com</p>
+                <p><i class="ri-mail-line"></i> oliviagouba@gmail.com</p>
             </div>
             <div class="footer-col">
                 <h3>Liens Rapides</h3>

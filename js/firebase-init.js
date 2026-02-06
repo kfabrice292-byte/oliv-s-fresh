@@ -62,7 +62,7 @@ window.firebaseService = {
     async updateProduct(id, product) {
         try {
             const { id: _, ...data } = product;
-            await db.collection("products").doc(id).update(data);
+            await db.collection("products").doc(id).set(data, { merge: true });
         } catch (e) {
             console.error("Firestore Error (Update Product):", e);
         }
@@ -105,4 +105,5 @@ window.firebaseService = {
     }
 };
 
+window.dataService = window.firebaseService;
 console.log("Firebase Service (Storage Enabled) Ready");

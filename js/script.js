@@ -142,9 +142,33 @@ const BLOG_DATA = [
 ];
 
 // --- APP STATE ---
-window.products = PRODUCTS_DATA;
-window.blogPosts = BLOG_DATA;
+window.products = [...PRODUCTS_DATA]; // Start with local data
+window.blogPosts = [...BLOG_DATA];
 window.cart = JSON.parse(localStorage.getItem('olivs_cart')) || [];
+
+// --- DATA INITIALIZATION (FIREBASE SYNC) ---
+window.initializeData = async function () {
+    try {
+        if (window.firebaseService) {
+            const fbProducts = await window.firebaseService.getProducts();
+            const fbBlog = await window.firebaseService.getBlogPosts();
+
+            // If we have products in Firebase, they override or extend the local ones
+            if (fbProducts && fbProducts.length > 0) {
+                // Combine and remove duplicates by name (prefer Firebase version)
+                const firebaseNames = fbProducts.map(p => p.name.toLowerCase());
+                const filteredLocal = PRODUCTS_DATA.filter(p => !firebaseNames.includes(p.name.toLowerCase()));
+                window.products = [...fbProducts, ...filteredLocal];
+            }
+
+            if (fbBlog && fbBlog.length > 0) {
+                window.blogPosts = fbBlog;
+            }
+        }
+    } catch (e) {
+        console.error("Data Sync Error:", e);
+    }
+};
 
 // --- UTILITIES ---
 window.getProductTag = function (cat) {
@@ -291,7 +315,7 @@ window.updateCartUI = function () {
 };
 
 // --- RENDERING ---
-window.renderProducts = function (container, category, limit = null) {
+window.renderProducts = function (container, category, limit = null, searchTerm = '') {
     if (!container) return;
     container.innerHTML = '';
 
@@ -299,10 +323,26 @@ window.renderProducts = function (container, category, limit = null) {
         ? window.products
         : window.products.filter(p => p.category === category);
 
-    if (limit && limit > 0) list = list.slice(0, limit);
+    // Filter out inactive products
+    list = list.filter(p => p.active !== false);
+
+    // Apply search filter if present
+    if (searchTerm) {
+        const term = searchTerm.toLowerCase().trim();
+        list = list.filter(p =>
+            p.name.toLowerCase().includes(term) ||
+            p.category.toLowerCase().includes(term) ||
+            (p.tag && p.tag.toLowerCase().includes(term))
+        );
+    }
+
+    if (limit && limit > 0 && !searchTerm) list = list.slice(0, limit);
 
     if (list.length === 0) {
-        container.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:3rem; color:#888;">Aucun produit disponible pour le moment.</p>';
+        container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem; color:#888;">
+            <i class="ri-search-2-line" style="font-size:3rem; margin-bottom:1rem; display:block; opacity:0.3;"></i>
+            <p>Aucun produit ne correspond à votre recherche "${searchTerm}".</p>
+        </div>`;
         return;
     }
 
@@ -402,7 +442,10 @@ window.renderBlogPost = function () {
 };
 
 // --- INITIALIZATION ---
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // 0. Sync with Firebase
+    await window.initializeData();
+
     // 1. Initial Render
     const prodCont = document.getElementById('products-container');
     const featCont = document.getElementById('featured-products-container');
@@ -412,12 +455,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Only render if container exists
     if (prodCont) window.renderProducts(prodCont, 'all');
     if (featCont) {
-        // Show a diverse selection on homepage (IDs: f1, l1, fi1, tr3)
-        const diverseIds = ['f1', 'l1', 'fi1', 'tr3'];
-        const diverseProducts = window.products.filter(p => diverseIds.includes(p.id));
-        // Use a small custom render or just render all as a trick
+        // Dynamic selection for homepage: prefer items with tags, or just the first few
+        let featured = window.products.filter(p => p.tag && p.active !== false).slice(0, 4);
+        if (featured.length < 4) {
+            const remaining = window.products.filter(p => !featured.includes(p) && p.active !== false).slice(0, 4 - featured.length);
+            featured = [...featured, ...remaining];
+        }
+
         const originalProducts = window.products;
-        window.products = diverseProducts;
+        window.products = featured;
         window.renderProducts(featCont, 'all');
         window.products = originalProducts;
     }
@@ -520,39 +566,93 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Navigation Active State
+    // 7. Navigation Active State
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav-links a');
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
         if (href === currentPath || (currentPath === 'index.html' && href === '#accueil')) {
             link.classList.add('active');
-        } else {
-            // Remove active just in case
-            // link.classList.remove('active');
         }
     });
 
-    // 7. Initialize
+    // 8. Search Functionality
+    const searchInput = document.getElementById('product-search');
+    if (searchInput && prodCont) {
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value;
+            const activeFilter = document.querySelector('.filter-btn.active');
+            const category = activeFilter ? activeFilter.dataset.filter : 'all';
+            window.renderProducts(prodCont, category, null, searchTerm);
+        });
+    }
+
+    // 9. Contact Form Logic
+    const contactForm = document.getElementById('contact-form-element');
+    if (contactForm) {
+        contactForm.onsubmit = (e) => {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const info = document.getElementById('contact-info').value;
+            const message = document.getElementById('contact-message').value;
+
+            const email = "oliviagouba@gmail.com";
+            const subject = encodeURIComponent("Contact depuis le site Oliv's Fresh");
+            const body = encodeURIComponent(`Bonjour,\n\nVous avez reçu un nouveau message de contact :\n\n👤 Nom : ${name}\n📧 Contact : ${info}\n💬 Message : ${message}\n\nCordialement.`);
+
+            const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
+
+            window.showToast("Ouverture de votre messagerie...");
+
+            // On ouvre le client mail
+            window.location.href = mailtoUrl;
+
+            contactForm.reset();
+        };
+    }
+
+    // 10. Initialize
     window.updateCartUI();
 
-    // 8. Robust Loader Removal
+    // 11. Reading Progress & Navbar Effects
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        const progressBar = document.querySelector(".reading-progress");
+        if (progressBar) progressBar.style.width = scrolled + "%";
+
+        // Navbar scroll effect
+        const nav = document.querySelector('.navbar');
+        if (nav) {
+            if (winScroll > 50) {
+                nav.style.padding = '0.5rem 0';
+                nav.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+            } else {
+                nav.style.padding = '1rem 0';
+                nav.style.boxShadow = 'none';
+                nav.style.background = 'var(--glass-bg)';
+            }
+        }
+    });
+
+    // 12. Robust Loader Removal
     const removeLoader = () => {
         const loader = document.getElementById('loader');
         if (loader) {
-            loader.style.transition = 'opacity 0.5s ease';
+            loader.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
             loader.style.opacity = '0';
             setTimeout(() => {
                 if (loader.parentNode) loader.remove();
                 document.body.style.overflow = 'visible';
-            }, 500);
+                if (typeof AOS !== 'undefined') AOS.refresh();
+            }, 800);
         }
     };
 
-    // Force remove after 2s anyway as a fallback
+    // Fallbacks
     setTimeout(removeLoader, 2000);
-
-    // Initial remove
     setTimeout(removeLoader, 500);
 
     // Init AOS

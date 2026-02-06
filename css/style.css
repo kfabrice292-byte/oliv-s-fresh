@@ -1021,21 +1021,107 @@ footer {
     color: var(--text-gray);
 }
 
+/* Premium Touches */
+.whatsapp-floater {
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: var(--accent-color);
+    z-index: 2000;
+    transition: width 0.1s ease;
+}
+
+.search-wrapper input:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 4px rgba(27, 94, 32, 0.1);
+    transform: scale(1.02);
+}
+
+#contact-form-element input:focus,
+#contact-form-element textarea:focus {
+    border-color: var(--primary-color) !important;
+    outline: none;
+    background: #f9fff9;
+}
+
+.contact-info-grid>div {
+    transition: var(--transition);
+}
+
+.contact-info-grid>div:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
 @media (max-width: 480px) {
+    .container {
+        width: 90%;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+    }
+
+    .section-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .contact-container {
+        gap: 2rem !important;
+    }
+
+    .contact-form {
+        padding: 0 !important;
+    }
+
+    #contact-form-element {
+        padding: 1.5rem !important;
+    }
+
     .modal-content {
         padding: 1.5rem;
         width: 95%;
+        margin: 0 10px;
     }
 
     .floating-actions {
-        bottom: 20px;
-        right: 20px;
+        bottom: 15px;
+        right: 15px;
     }
 
     .cart-floater,
     .whatsapp-floater {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
+        width: 48px;
+        height: 48px;
+        font-size: 1.3rem;
+    }
+
+    .reading-progress {
+        height: 4px;
+        /* Slightly thicker on mobile for visibility */
     }
 }

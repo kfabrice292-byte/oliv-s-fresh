@@ -62,17 +62,44 @@ async function renderAdminTables() {
     // Products Table
     if (pBody) {
         if (window.products.length === 0) {
-            pBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:2rem;">Aucun produit.</td></tr>';
+            pBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:2rem;">Aucun produit.</td></tr>';
         } else {
             pBody.innerHTML = window.products.map(p => `
                 <tr>
                     <td><img src="${p.image || 'img/oli_logo.png'}" style="width:40px; height:40px; border-radius:4px; object-fit:cover;" onerror="this.src='img/oli_logo.png'"></td>
-                    <td>${p.name}</td>
-                    <td>${window.getProductTag(p.category)}</td>
-                    <td>${window.formatPrice(p.price)}</td>
+                    <td><strong style="font-size:1.1rem;">${p.name}</strong></td>
+                    <td><span style="font-size:0.85rem; color:#666;">${window.getProductTag(p.category)}</span></td>
                     <td>
-                        <button class="action-btn edit-btn" onclick="openProductEdit('${p.id}')"><i class="ri-edit-line"></i></button>
-                        <button class="action-btn delete-btn" onclick="deleteProduct('${p.id}')"><i class="ri-delete-bin-line"></i></button>
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <input type="number" value="${p.price}" id="price-${p.id}" style="width:100px; padding:5px; border:1px solid #ddd; border-radius:4px;">
+                            <span style="font-size:0.8rem;">FCFA</span>
+                        </div>
+                    </td>
+                    <td>
+                        <select id="unit-${p.id}" style="padding:5px; border:1px solid #ddd; border-radius:4px;">
+                            <option value="kg" ${p.unit === 'kg' ? 'selected' : ''}>kg</option>
+                            <option value="unité" ${p.unit === 'unité' ? 'selected' : ''}>unité</option>
+                            <option value="botte" ${p.unit === 'botte' ? 'selected' : ''}>botte</option>
+                            <option value="barquette" ${p.unit === 'barquette' ? 'selected' : ''}>barquette</option>
+                            <option value="1L" ${p.unit === '1L' ? 'selected' : ''}>1L</option>
+                        </select>
+                    </td>
+                        <div class="status-toggle ${p.active !== false ? 'status-active' : 'status-inactive'}" 
+                             onclick="toggleProductStatus('${p.id}', ${p.active !== false})">
+                            <i class="${p.active !== false ? 'ri-eye-line' : 'ri-eye-off-line'}" style="margin-right:5px;"></i>
+                            ${p.active !== false ? 'Actif' : 'Inactif'}
+                        </div>
+                    </td>
+                    <td style="white-space:nowrap;">
+                        <button class="action-btn edit-btn" title="Sauvegarder" onclick="quickUpdate('${p.id}')">
+                            <i class="ri-save-3-line" style="color:var(--primary); font-size:1.4rem;"></i>
+                        </button>
+                        <button class="action-btn" title="Plus d'options" onclick="openProductEdit('${p.id}')">
+                            <i class="ri-settings-4-line"></i>
+                        </button>
+                        <button class="action-btn delete-btn" title="Supprimer" onclick="deleteProduct('${p.id}')">
+                            <i class="ri-delete-bin-line"></i>
+                        </button>
                     </td>
                 </tr>
             `).join('');
@@ -140,6 +167,39 @@ function getProductFormData() {
         file: document.getElementById('p-file').files[0]
     };
 }
+
+window.quickUpdate = async function (id) {
+    const price = parseInt(document.getElementById(`price-${id}`).value);
+    const unit = document.getElementById(`unit-${id}`).value;
+
+    if (isNaN(price)) return alert("Prix invalide");
+
+    const btn = window.event ? window.event.currentTarget : null;
+    const oldIcon = btn ? btn.innerHTML : '';
+    if (btn) btn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i>';
+
+    try {
+        await window.dataService.updateProduct(id, { price, unit });
+        await renderAdminTables();
+        if (window.showToast) window.showToast("Mise à jour réussie !");
+        else alert("Mise à jour réussie !");
+    } catch (e) {
+        alert("Erreur: " + e.message);
+    } finally {
+        if (btn) btn.innerHTML = oldIcon;
+    }
+};
+
+window.toggleProductStatus = async function (id, currentStatus) {
+    try {
+        const newStatus = !currentStatus;
+        await window.dataService.updateProduct(id, { active: newStatus });
+        await renderAdminTables();
+        if (window.showToast) window.showToast(newStatus ? "Produit activé" : "Produit désactivé");
+    } catch (e) {
+        alert("Erreur: " + e.message);
+    }
+};
 
 window.saveProduct = async function () {
     const data = getProductFormData();
