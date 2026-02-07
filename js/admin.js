@@ -163,6 +163,9 @@ function getProductFormData() {
         name: document.getElementById('p-name').value,
         category: document.getElementById('p-category').value,
         price: parseInt(document.getElementById('p-price').value),
+        oldPrice: parseInt(document.getElementById('p-old-price').value) || null,
+        tag: document.getElementById('p-tag').value,
+        antiGaspiReason: document.getElementById('p-anti-gaspi-reason').value,
         unit: document.getElementById('p-unit').value,
         image: document.getElementById('p-image').value,
         file: document.getElementById('p-file').files[0]
@@ -221,6 +224,9 @@ window.saveProduct = async function () {
             name: data.name,
             category: data.category,
             price: data.price,
+            oldPrice: data.oldPrice,
+            tag: data.tag,
+            antiGaspiReason: data.antiGaspiReason,
             unit: data.unit,
             image: imageUrl
         };
@@ -295,6 +301,9 @@ window.openProductEdit = function (id) {
     document.getElementById('p-name').value = p.name;
     document.getElementById('p-category').value = p.category;
     document.getElementById('p-price').value = p.price;
+    document.getElementById('p-old-price').value = p.oldPrice || '';
+    document.getElementById('p-tag').value = p.tag || '';
+    document.getElementById('p-anti-gaspi-reason').value = p.antiGaspiReason || '';
     document.getElementById('p-unit').value = p.unit;
     document.getElementById('p-image').value = p.image;
     document.getElementById('product-modal').classList.add('active');
@@ -320,6 +329,9 @@ function resetProductForm() {
     document.getElementById('p-id').value = '';
     document.getElementById('p-name').value = '';
     document.getElementById('p-price').value = '';
+    document.getElementById('p-old-price').value = '';
+    document.getElementById('p-tag').value = '';
+    document.getElementById('p-anti-gaspi-reason').value = '';
     document.getElementById('p-image').value = '';
     document.getElementById('p-file').value = '';
 }

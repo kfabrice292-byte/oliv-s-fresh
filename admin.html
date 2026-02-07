@@ -225,11 +225,28 @@
 
         .modal-body {
             background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            width: 500px;
-            max-width: 90%;
+            padding: 2.5rem;
+            border-radius: 16px;
+            width: 550px;
+            max-width: 95%;
+            max-height: 85vh;
+            overflow-y: auto;
             position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
         }
 
         @media (max-width: 768px) {
@@ -427,8 +444,20 @@
                 </select>
             </div>
             <div class="input-group">
-                <label>Prix (FCFA)</label>
+                <label>Prix de Vente (FCFA)</label>
                 <input type="number" id="p-price">
+            </div>
+            <div class="input-group">
+                <label>Ancien Prix / Promo (FCFA - Optionnel)</label>
+                <input type="number" id="p-old-price" placeholder="Prix barré">
+            </div>
+            <div class="input-group">
+                <label>Tag Spécial (Ex: PROMO, ANTI-GASPI)</label>
+                <input type="text" id="p-tag" placeholder="Laissez vide si aucun">
+            </div>
+            <div class="input-group">
+                <label>Raison Anti-gaspi (Si tag ANTI-GASPI)</label>
+                <input type="text" id="p-anti-gaspi-reason" placeholder="Ex: Surplus de récolte, Aspect imparfait...">
             </div>
             <div class="input-group">
                 <label>Unité</label>

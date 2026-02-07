@@ -1295,3 +1295,53 @@ footer {
         transform: scale(1);
     }
 }
+
+/* Anti-Gaspi Styling */
+@keyframes pulse-red {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+    }
+}
+
+#antigaspi-section {
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 0;
+}
+
+#antigaspi-section::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(230, 126, 34, 0.05) 0%, transparent 70%);
+    z-index: 1;
+}
+
+#antigaspi-container .product-card {
+    border: 2px solid transparent;
+    transition: var(--transition);
+}
+
+#antigaspi-container .product-card:hover {
+    border-color: #fab1a0;
+}
+
+#antigaspi-container .btn-primary:hover {
+    background: #e66767 !important;
+    border-color: #e66767 !important;
+    transform: translateY(-2px);
+}

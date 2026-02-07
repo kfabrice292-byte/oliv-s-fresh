@@ -361,7 +361,15 @@ window.renderProducts = function (container, category, limit = null, searchTerm 
 
         // Use a placeholder if image fails
         const imgUrl = p.image || 'img/oli_logo.png';
-        const badge = p.tag ? `<span class="product-badge" style="position:absolute; top:12px; left:12px; background:var(--accent-color); color:var(--text-dark); padding:2px 10px; border-radius:12px; font-size:0.7rem; font-weight:700; z-index:10; box-shadow:0 2px 5px rgba(0,0,0,0.1);">${p.tag}</span>` : '';
+        const oldPriceHtml = p.oldPrice ? `<span style="text-decoration:line-through; color:#999; font-size:0.9rem; margin-right:8px;">${window.formatPrice(p.oldPrice)}</span>` : '';
+        const isAntiGaspi = p.tag && p.tag.toUpperCase() === 'ANTI-GASPI';
+        const badgeBg = isAntiGaspi ? '#ff6b6b' : 'var(--accent-color)';
+        const badgeColor = isAntiGaspi ? 'white' : 'var(--text-dark)';
+        const badgeIcon = isAntiGaspi ? '<i class="ri-leaf-line" style="margin-right:4px;"></i>' : '';
+        const badge = p.tag ? `<span class="product-badge" style="position:absolute; top:12px; left:12px; background:${badgeBg}; color:${badgeColor}; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:700; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.3); display:flex; align-items:center;">${badgeIcon}${p.tag.toUpperCase()}</span>` : '';
+
+        // Anti-gaspi explanation
+        const reasonHtml = (isAntiGaspi && p.antiGaspiReason) ? `<div style="background:#fff5f5; color:#d63031; font-size:0.75rem; padding:5px 10px; border-radius:8px; margin-top:8px; border:1px dashed #fab1a0; display:flex; align-items:center; gap:5px;"><i class="ri-information-line"></i> ${p.antiGaspiReason}</div>` : '';
 
         div.innerHTML = `
             ${badge}
@@ -371,14 +379,65 @@ window.renderProducts = function (container, category, limit = null, searchTerm 
             <div class="product-info">
                 <span class="product-tag">${window.getProductTag(p.category)}</span>
                 <h3 class="product-title">${p.name}</h3>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem;">
+                ${reasonHtml}
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
                     <div class="product-price">
-                        ${window.formatPrice(p.price)}
+                        ${oldPriceHtml}
+                        <span>${window.formatPrice(p.price)}</span>
                         <small style="font-weight:400; color:#888; font-size:0.8rem;">/ ${p.unit}</small>
                     </div>
                 </div>
                 <button class="btn-primary" onclick="window.addToCart('${p.id}')" style="width:100%; margin-top:1rem; border-radius:12px; display:flex; justify-content:center; align-items:center; gap:8px;">
                     <i class="ri-shopping-cart-2-line"></i> Ajouter
+                </button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+};
+
+window.renderAntiGaspi = function (container) {
+    if (!container) return;
+    const antiGaspiList = window.products.filter(p => p.tag && p.tag.toUpperCase() === 'ANTI-GASPI' && p.active !== false);
+
+    if (antiGaspiList.length === 0) {
+        container.style.display = 'none'; // Hide section if no products
+        const section = container.closest('.section');
+        if (section) section.style.display = 'none';
+        return;
+    }
+
+    container.innerHTML = '';
+    antiGaspiList.forEach((p, idx) => {
+        const div = document.createElement('div');
+        div.className = 'product-card';
+        div.setAttribute('data-aos', 'fade-up');
+        div.setAttribute('data-aos-delay', idx * 100);
+
+        const imgUrl = p.image || 'img/oli_logo.png';
+        const oldPriceHtml = p.oldPrice ? `<span style="text-decoration:line-through; color:#999; font-size:0.8rem; margin-right:5px;">${window.formatPrice(p.oldPrice)}</span>` : '';
+
+        div.innerHTML = `
+            <span class="product-badge" style="position:absolute; top:12px; left:12px; background:#ff6b6b; color:white; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:700; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.3); display:flex; align-items:center;">
+                <i class="ri-leaf-line" style="margin-right:4px;"></i> ANTI-GASPI
+            </span>
+            <div class="product-image">
+                <img src="${imgUrl}" alt="${p.name}" loading="lazy" style="object-fit: cover; width: 100%; height: 100%;" onerror="this.onerror=null; this.src='img/oli_logo.png';">
+            </div>
+            <div class="product-info">
+                <span class="product-tag">${window.getProductTag(p.category)}</span>
+                <h3 class="product-title" style="font-size:1.1rem;">${p.name}</h3>
+                <div style="background:#fff5f5; color:#d63031; font-size:0.75rem; padding:5px 10px; border-radius:8px; margin-top:8px; border:1px dashed #fab1a0; display:flex; align-items:center; gap:5px;">
+                    <i class="ri-history-line"></i> ${p.antiGaspiReason || 'Offre de sauvetage'}
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem;">
+                    <div class="product-price" style="font-size:1.2rem; color:#d63031;">
+                        ${oldPriceHtml}
+                        <span>${window.formatPrice(p.price)}</span>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="window.addToCart('${p.id}')" style="width:100%; margin-top:1rem; border-radius:12px; background:#ff6b6b; border-color:#ff6b6b;">
+                    Je sauve ce produit !
                 </button>
             </div>
         `;
@@ -461,8 +520,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Only render if container exists
     if (prodCont) window.renderProducts(prodCont, 'all');
     if (featCont) {
+        // Anti-Gaspi Corner
+        const antiGaspiCont = document.getElementById('antigaspi-container');
+        if (antiGaspiCont) window.renderAntiGaspi(antiGaspiCont);
+
         // Dynamic selection for homepage: prefer items with tags, or just the first few
-        let featured = window.products.filter(p => p.tag && p.active !== false).slice(0, 4);
+        let featured = window.products.filter(p => p.tag && p.active !== false && p.tag.toUpperCase() !== 'ANTI-GASPI').slice(0, 4);
         if (featured.length < 4) {
             const remaining = window.products.filter(p => !featured.includes(p) && p.active !== false).slice(0, 4 - featured.length);
             featured = [...featured, ...remaining];
