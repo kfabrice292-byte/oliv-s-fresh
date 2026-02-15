@@ -603,6 +603,63 @@ img {
     gap: 2rem;
 }
 
+/* Simple & Fluid Left-to-Right Marquee */
+.featured-slider-wrapper {
+    position: relative;
+    padding: 40px 0;
+    margin: 2rem 0;
+    overflow: hidden;
+    background: rgba(45, 106, 79, 0.02);
+}
+
+.featured-scroll-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.featured-products-grid {
+    display: flex;
+    gap: 40px;
+    width: max-content;
+    animation: marqueeRightToLeft 40s linear infinite;
+}
+
+/* Pause on hover to allow exploration */
+.featured-slider-wrapper:hover .featured-products-grid {
+    animation-play-state: paused;
+}
+
+@keyframes marqueeRightToLeft {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-50% - 20px));
+    }
+}
+
+.featured-products-grid .product-card {
+    flex: 0 0 300px;
+    transition: transform 0.3s ease;
+}
+
+.featured-products-grid .product-card:hover {
+    transform: translateY(-10px);
+}
+
+/* Hide navigation for the auto-marquee */
+.slider-dots,
+.slider-nav {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .featured-products-grid .product-card {
+        flex: 0 0 280px;
+    }
+}
+
 /* Product Interactions */
 .product-card {
     background: white;

@@ -1,5 +1,5 @@
-// Oliv's Fresh - Script v1.2 (Strict Firebase Only)
-console.log("🚀 Oliv's Fresh Script v1.2 Loaded");
+// Oliv's Fresh - Script v2.1 (Performance & Fixed Redirects)
+console.log("🚀 Oliv's Fresh Script v2.1 Loaded");
 
 // --- HELPERS ---
 window.formatPrice = (p) => {
@@ -244,17 +244,17 @@ window.showProductsSkeleton = function (container, count = 4) {
     `).join('');
 };
 
-window.renderProducts = function (container, category, limit = null, searchTerm = '') {
+window.renderProducts = (container, category = 'all', limit = null, searchTerm = '') => {
     if (!container) return;
 
-    let list = category === 'all'
-        ? window.products
-        : window.products.filter(p => p.category === category);
+    let list = window.products || [];
+    if (category !== 'all') {
+        list = list.filter(p => p.category === category);
+    }
 
     // Filter out inactive products
     list = list.filter(p => p.active !== false);
 
-    // Apply search filter if present (Defensive check for non-string properties)
     if (searchTerm) {
         const term = searchTerm.toLowerCase().trim();
         list = list.filter(p => {
@@ -265,7 +265,7 @@ window.renderProducts = function (container, category, limit = null, searchTerm 
         });
     }
 
-    if (limit && limit > 0 && !searchTerm) list = list.slice(0, limit);
+    if (limit) list = list.slice(0, limit);
 
     if (list.length === 0) {
         container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem; color:#888;">
@@ -275,13 +275,19 @@ window.renderProducts = function (container, category, limit = null, searchTerm 
         return;
     }
 
-    container.innerHTML = ''; // Clear after check
-    list.forEach((p, idx) => {
+    container.innerHTML = '';
+
+    // For automatic left-to-right infinite marquee, we duplicate the list
+    let displayList = list;
+    if (container.id === 'featured-products-container') {
+        displayList = [...list, ...list];
+    }
+
+    displayList.forEach((p, idx) => {
         const div = document.createElement('div');
         div.className = 'product-card';
-        // Add AOS only if not limited (to avoid weirdness in small lists) or tune delay
         div.setAttribute('data-aos', 'fade-up');
-        div.setAttribute('data-aos-delay', (idx % 4) * 100);
+        div.setAttribute('data-aos-delay', (idx % list.length) * 100);
 
         // Use a placeholder if image fails
         const imgUrl = p.image || 'img/oli_logo.png';
@@ -318,6 +324,21 @@ window.renderProducts = function (container, category, limit = null, searchTerm 
         `;
         container.appendChild(div);
     });
+};
+
+window.slideFeatured = function (dir) {
+    const scroller = document.querySelector('.featured-scroll-container');
+    if (!scroller) return;
+    const scrollAmount = scroller.clientWidth * 0.8;
+    scroller.scrollBy({ left: dir * scrollAmount, behavior: 'smooth' });
+};
+
+window.scrollToItem = function (index) {
+    const scroller = document.querySelector('.featured-scroll-container');
+    const items = scroller.querySelectorAll('.product-card');
+    if (items[index]) {
+        items[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
 };
 
 window.renderAntiGaspi = function (container) {
@@ -486,8 +507,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (prodCont) window.renderProducts(prodCont, 'all');
 
         // Home Page
+        // Home Page - Fluid Render of first 5 active products
         if (featuredCont) {
-            const featuredList = window.products.slice(0, 5);
+            // Filter active first, then slice 5 to ensure we always show 5 if they exist
+            const activeProducts = window.products.filter(p => p.active !== false);
+            const featuredList = activeProducts.slice(0, 5);
+
             const originalProducts = window.products;
             window.products = featuredList;
             window.renderProducts(featuredCont, 'all');
@@ -583,13 +608,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 9. Navigation Active State
+    // 9. Navigation Active State (Strict and Folder-aware)
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-links a').forEach(link => {
         const href = link.getAttribute('href');
-        if (href === currentPath || (currentPath === 'index.html' && href === '#accueil')) {
-            link.classList.add('active');
-        }
+        const isActive = href === currentPath ||
+            (currentPath === 'index.html' && (href === './' || href === 'index.html')) ||
+            (currentPath === '' && href === './');
+        if (isActive) link.classList.add('active');
     });
 
     // 10. Search
@@ -627,12 +653,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 13. AOS
     if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
-
-    // 14. Mobile VH Fix (Anti-jump)
-    const setVh = () => {
-        let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-    };
-    setVh();
-    window.addEventListener('resize', setVh);
 });
+
+// 14. Mobile VH Fix (Anti-jump)
+const setVh = () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+};
+setVh();
+window.addEventListener('resize', setVh);
