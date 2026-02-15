@@ -1,3 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /private-admin-olivs-2026.html
+Disallow: /js/admin.js
+
 Sitemap: https://olivsfresh.com/sitemap.xml

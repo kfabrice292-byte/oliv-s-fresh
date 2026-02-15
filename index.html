@@ -4,28 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oliv's Fresh - La Fraîcheur à Portée de Main</title>
+    <title>Oliv's Fresh | Fruits, Légumes & Paniers Bio à Ouagadougou</title>
     <meta name="description"
-        content="Découvrez Oliv's Fresh : fruits, légumes et paniers bios livrés directement chez vous. Qualité locale et fraîcheur garantie au Burkina Faso.">
+        content="Commandez vos fruits et légumes ultra-frais chez Oliv's Fresh à Ouagadougou. Fraîcheur garantie, agriculture locale et livraison à domicile. Qualité bio au meilleur prix au Burkina Faso.">
+    <meta name="keywords"
+        content="Oliv's Fresh, fruits frais Ouagadougou, légumes frais Burkina, paniers bios, livraison fruits Ouagadougou, alimentation saine Burkina, marché en ligne Faso">
+    <link rel="canonical" href="./">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://olivsfresh.com/">
-    <meta property="og:title" content="Oliv's Fresh - La Fraîcheur à Portée de Main">
-    <meta property="og:description" content="Fruits, légumes et paniers bios livrés à domicile.">
-    <meta property="og:image" content="img/oli_logo.png"> <!-- Twitter -->
+    <meta property="og:url" content="./">
+    <meta property="og:title" content="Oliv's Fresh | La meilleure qualité de produits locaux à Ouagadougou">
+    <meta property="og:description"
+        content="Fruits, légumes et paniers bios livrés directement de nos producteurs à votre cuisine. Découvrez la fraîcheur ultime.">
+    <meta property="og:image" content="img/oli_logo.png">
+
+    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Oliv's Fresh - La Fraîcheur à Portée de Main">
-    <meta property="twitter:description" content="Fruits, légumes et paniers bios livrés à domicile.">
-    <meta property="twitter:image" content="img/oli_logo.png"> <!-- Google Fonts -->
+    <meta property="twitter:title" content="Oliv's Fresh | Fraîcheur & Qualité Locale">
+    <meta property="twitter:description"
+        content="Découvrez une nouvelle façon de manger frais à Ouagadougou. Livraison rapide et produits garantis sans conservateurs.">
+    <meta property="twitter:image" content="img/oli_logo.png">
+
+    <!-- Google Search Console & Analytics (SEA Ready) -->
+    <!-- Global site tag (gtag.js) - Google Analytics slot -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> -->
+
+    <!-- Structured Data - Schema.org for Google Local Business -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FoodStore",
+      "name": "Oliv's Fresh",
+      "image": "img/oli_logo.png",
+      "@id": "./",
+      "url": "./",
+      "telephone": "+22677973958",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ouagadougou",
+        "addressLocality": "Ouagadougou",
+        "addressCountry": "BF"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 12.3714,
+        "longitude": -1.5197
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "07:30",
+        "closes": "19:00"
+      }
+    }
+    </script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
-        rel="stylesheet"> <!-- RemixIcon -->
+        rel="stylesheet">
+
+    <!-- RemixIcon -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" rel="stylesheet">
+
     <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css"> <!-- Favicon -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css?v=1.2">
+
+    <!-- Favicon -->
     <link rel="icon" href="img/favicon.png" type="image/png">
 </head>
 
@@ -58,8 +116,13 @@
     <section id="accueil" class="hero">
         <div class="hero-overlay"></div>
         <div class="container hero-content">
-            <h1 data-aos="fade-up" data-aos-duration="1000">Fruits & légumes frais <span class="highlight">chaque
-                    jour</span></h1>
+            <h1 class="hero-title-premium" data-aos="fade-up" data-aos-duration="1000">
+                <div class="dynamic-wrap">
+                    <span id="cycle-label">Fruits</span>
+                    <span id="cycle-icon"><i class="ri-apple-fill"></i></span>
+                </div>
+                <div class="static-wrap">frais <span class="highlight">chaque jour</span></div>
+            </h1>
             <p data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">Commandez facilement via WhatsApp et
                 recevez la meilleure qualité directement chez vous.</p>
             <div class="hero-buttons" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
@@ -322,7 +385,7 @@
                             </div>
                             <div>
                                 <h4 style="margin: 0; color: #333; font-size: 1.1rem;">Email</h4>
-                                <p style="margin: 5px 0 0; color: #666;">oliviagouba@gmail.com</p>
+                                <p style="margin: 5px 0 0; color: #666;">joycegouba@gmail.com</p>
                             </div>
                         </div>
                     </div>
@@ -347,13 +410,14 @@
                 <h3>Contact</h3>
                 <p><i class="ri-map-pin-line"></i> Ouagadougou, Burkina Faso</p>
                 <p><i class="ri-phone-line"></i> +226 77 97 39 58</p>
-                <p><i class="ri-mail-line"></i> oliviagouba@gmail.com</p>
+                <p><i class="ri-mail-line"></i> joycegouba@gmail.com</p>
             </div>
             <div class="footer-col">
                 <h3>Liens Rapides</h3>
                 <a href="#accueil">Accueil</a>
                 <a href="boutique.html">Boutique</a>
-                <a href="#blog">Blog</a>
+                <a href="#abonnements">Abonnements</a>
+                <a href="blog.html">Blog</a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -412,7 +476,7 @@
     <!-- App Initialization -->
     <script src="js/firebase-init.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/script.js?v=1.2"></script>
 </body>
 
 </html>

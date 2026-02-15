@@ -21,87 +21,67 @@ window.firebaseService = {
     storage: storage,
 
     async uploadFile(file, path) {
+        console.log("📤 Tentative d'upload vers:", path);
+        if (!storage) {
+            console.error("❌ Firebase Storage n'est pas initialisé !");
+            throw new Error("Service de stockage indisponible.");
+        }
+
         try {
             const ref = storage.ref().child(path);
             const snapshot = await ref.put(file);
-            return await snapshot.ref.getDownloadURL();
+            console.log("✅ Upload terminé avec succès");
+            const url = await snapshot.ref.getDownloadURL();
+            console.log("🔗 URL générée:", url);
+            return url;
         } catch (e) {
-            console.error("Storage Error:", e);
-            throw e;
+            console.error("❌ Erreur de stockage Firebase:", e);
+            throw new Error("Impossible d'envoyer l'image : " + e.message);
         }
     },
 
     async getProducts() {
-        try {
-            const snapshot = await db.collection("products").get();
-            if (snapshot.empty) return [];
-            return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        } catch (e) {
-            console.error("Firestore Error (Products):", e);
-            return [];
-        }
+        console.log("📡 Récupération des produits...");
+        const snapshot = await db.collection("products").get();
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     },
 
     async addProduct(product) {
-        try {
-            await db.collection("products").add(product);
-        } catch (e) {
-            console.error("Firestore Error (Add Product):", e);
-            alert("Erreur lors de l'ajout. Vérifiez vos règles Firestore.");
-        }
+        console.log("➕ Ajout produit:", product.name);
+        return await db.collection("products").add(product);
     },
 
     async deleteProduct(id) {
-        try {
-            await db.collection("products").doc(id).delete();
-        } catch (e) {
-            console.error("Firestore Error (Delete Product):", e);
-        }
+        console.log("🗑️ Suppression produit:", id);
+        return await db.collection("products").doc(id).delete();
     },
 
     async updateProduct(id, product) {
-        try {
-            const { id: _, ...data } = product;
-            await db.collection("products").doc(id).set(data, { merge: true });
-        } catch (e) {
-            console.error("Firestore Error (Update Product):", e);
-        }
+        console.log("📝 Mise à jour produit:", id);
+        const { id: _, ...data } = product;
+        return await db.collection("products").doc(id).set(data, { merge: true });
     },
 
     async getBlogPosts() {
-        try {
-            const snapshot = await db.collection("blog").get();
-            if (snapshot.empty) return [];
-            return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        } catch (e) {
-            console.error("Firestore Error (Blog):", e);
-            return [];
-        }
+        console.log("📡 Récupération du blog...");
+        const snapshot = await db.collection("blog").get();
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     },
 
     async addBlogPost(post) {
-        try {
-            await db.collection("blog").add(post);
-        } catch (e) {
-            console.error("Firestore Error (Add Blog):", e);
-        }
+        console.log("➕ Ajout article:", post.title);
+        return await db.collection("blog").add(post);
     },
 
     async deleteBlogPost(id) {
-        try {
-            await db.collection("blog").doc(id).delete();
-        } catch (e) {
-            console.error("Firestore Error (Delete Blog):", e);
-        }
+        console.log("🗑️ Suppression article:", id);
+        return await db.collection("blog").doc(id).delete();
     },
 
     async updateBlogPost(id, post) {
-        try {
-            const { id: _, ...data } = post;
-            await db.collection("blog").doc(id).update(data);
-        } catch (e) {
-            console.error("Firestore Error (Update Blog):", e);
-        }
+        console.log("📝 Mise à jour article:", id);
+        const { id: _, ...data } = post;
+        return await db.collection("blog").doc(id).set(data, { merge: true });
     }
 };
 

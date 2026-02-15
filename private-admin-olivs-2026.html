@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Oliv's Fresh</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- RemixIcon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.png" type="image/png">
+
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --primary-light: #40916c;
+            --primary-dark: #1b4332;
+            --accent: #ffb703;
+            --bg: #f0f2f5;
+            --white: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #64748b;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --radius-md: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* AUTH SCREEN */
+        #auth-screen {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        }
+
+        .login-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 420px;
+        }
+
+        /* SIDEBAR PRO */
+        .sidebar {
+            width: 260px;
+            background: var(--white);
+            border-right: 1px solid #e2e8f0;
+            position: fixed;
+            height: 100%;
+            top: 0;
+            left: 0;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 0.5rem;
+        }
+
+        .sidebar-header img {
+            width: 40px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .nav-group-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin: 1.5rem 0 0.5rem 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 12px 1rem;
+            margin-bottom: 4px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-item i {
+            font-size: 1.25rem;
+        }
+
+        .nav-item:hover {
+            background: #f8fafc;
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(45, 106, 79, 0.2);
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem 3rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        /* STATS CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+        }
+
+        .stat-card .icon {
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+            font-size: 5rem;
+            opacity: 0.05;
+            color: var(--primary);
+        }
+
+        .stat-card .label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 5px;
+        }
+
+        .stat-card .trend {
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .trend.up {
+            color: var(--success);
+        }
+
+        /* TABLE & CARDS */
+        .card {
+            background: white;
+            padding: 0;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafbfc;
+        }
+
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 10px 10px 40px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .data-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.95rem;
+        }
+
+        .data-table tr:last-child td {
+            border: none;
+        }
+
+        .data-table tr:hover {
+            background: #fcfdfe;
+        }
+
+        .badge-status {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-active {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .badge-inactive {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* BUTTONS */
+        .btn-pro {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary-pro {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary-pro:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128c7e;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+        }
+
+        /* MODALS CORE FIX */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .admin-modal.active {
+            display: flex;
+        }
+
+        .modal-body {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: none;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .btn-admin {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-admin:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .modal-body h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            border-radius: 10px;
+            border: 1.5px solid #e2e8f0;
+            padding: 12px;
+            font-size: 1rem;
+            transition: 0.2s;
+            outline: none;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+                padding: 1.5rem 0.5rem;
+            }
+
+            .nav-text,
+            .nav-group-label,
+            .sidebar-header h2 {
+                display: none;
+            }
+
+            .sidebar-header {
+                justify-content: center;
+            }
+
+            .main-content {
+                margin-left: 80px;
+                padding: 2rem;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 0.75rem;
+            }
+        }
+
+        .data-table input,
+        .data-table select {
+            border: 1px solid #ddd;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .data-table input:focus,
+        .data-table select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.1);
+        }
+
+        .action-btn i {
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+
+        .ri-save-3-line:hover {
+            color: var(--secondary) !important;
+            transform: scale(1.2);
+        }
+
+        .status-toggle {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #ddd;
+        }
+
+        .status-active {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-color: #c8e6c9;
+        }
+
+        .status-inactive {
+            background-color: #ffebee;
+            color: #c62828;
+            border-color: #ffcdd2;
+        }
+    </style>
+</head>
+
+<body style="opacity: 0; transition: opacity 0.5s;">
+    <!-- Security Guard: Hide content until auth is checked -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Short timeout to let Firebase init
+            setTimeout(() => {
+                const user = localStorage.getItem('firebase:authUser:olivsfresh:[DEFAULT]');
+                if (!user && !window.location.hash.includes('login')) {
+                    // We let the onAuthStateChanged handle the real logic, but this hides UI
+                }
+            }, 500);
+        });
+    </script>
+
+    <!-- Auth Screen -->
+    <div id="auth-screen">
+        <div class="login-card">
+            <img src="img/oli_logo.png" alt="Logo">
+            <h2>Administration</h2>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="admin-email" placeholder="admin@olivsfresh.com">
+            </div>
+            <div class="input-group">
+                <label>Mot de passe</label>
+                <input type="password" id="admin-password" placeholder="••••••••">
+            </div>
+            <button class="btn-admin" id="login-btn" onclick="login()">Connexion</button>
+            <p id="login-error" style="color: red; margin-top: 10px; display: none;">Identifiants incorrects</p>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/oli_logo.png" alt="Logo">
+                <h2>Oliv's Admin</h2>
+            </div>
+
+            <div class="nav-group-label">Gestion</div>
+            <div class="nav-item active" onclick="switchTab('products')">
+                <i class="ri-dashboard-line"></i> <span class="nav-text">Catalogue</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('blog')">
+                <i class="ri-edit-box-line"></i> <span class="nav-text">Blog</span>
+            </div>
+
+            <div class="nav-group-label">Marketing</div>
+            <div class="nav-item" onclick="openWhatsAppModal()">
+                <i class="ri-whatsapp-line"></i> <span class="nav-text">Générateur Promo</span>
+            </div>
+
+            <div class="nav-group-label">Système</div>
+            <div class="nav-item" onclick="switchTab('settings')">
+                <i class="ri-settings-4-line"></i> <span class="nav-text">Paramètres</span>
+            </div>
+
+            <div style="margin-top: auto; padding-top: 1rem;">
+                <div class="nav-item" onclick="logout()" style="color: var(--danger);">
+                    <i class="ri-logout-box-r-line"></i> <span class="nav-text">Déconnexion</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- HEADER -->
+            <div class="header">
+                <div class="title-area">
+                    <p style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Bon retour, Joyce 👋</p>
+                    <h1>Tableau de Bord</h1>
+                </div>
+                <div style="display:flex; gap: 12px;">
+                    <button class="btn-pro" style="background: #e2e8f0; color: #475569;"
+                        onclick="window.open('index.html', '_blank')">
+                        <i class="ri-external-link-line"></i> Voir le site
+                    </button>
+                    <button class="btn-pro btn-whatsapp" onclick="openWhatsAppModal()">
+                        <i class="ri-whatsapp-line"></i> Créer une Promo
+                    </button>
+                    <button class="btn-pro btn-primary-pro" onclick="openProductModal()">
+                        <i class="ri-add-circle-line"></i> Nouveau Produit
+                    </button>
+                </div>
+            </div>
+
+            <!-- STATS CARDS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="icon"><i class="ri-shopping-basket-2-line"></i></div>
+                    <p class="label">Total Produits</p>
+                    <p class="value" id="stat-total-products">0</p>
+                    <p class="trend up"><i class="ri-arrow-up-line"></i> En ligne</p>
+                </div>
+                <div class="stat-card">
+                    <div class="icon"><i class="ri-eye-off-line"></i></div>
+                    <p class="label">Produits Inactifs</p>
+                    <p class="value" id="stat-inactive-products">0</p>
+                    <p class="trend" style="color: var(--text-muted);">Stock épuisé</p>
+                </div>
+                <div class="stat-card">
+                    <div class="icon"><i class="ri-article-line"></i></div>
+                    <p class="label">Articles Blog</p>
+                    <p class="value" id="stat-total-blog">0</p>
+                    <p class="trend up"><i class="ri-checkbox-circle-line"></i> Publiés</p>
+                </div>
+                <div class="stat-card">
+                    <div class="icon"><i class="ri-shield-star-line"></i></div>
+                    <p class="label">Sécurité</p>
+                    <p class="value" style="font-size: 1.1rem; color: var(--success);">Activée</p>
+                    <p class="trend up"><i class="ri-lock-2-line"></i> Firebase</p>
+                </div>
+            </div>
+
+            <!-- PRODUCTS VIEW -->
+            <div id="view-products" class="tab-view">
+                <div class="card">
+                    <div class="table-header">
+                        <h3 style="font-weight: 700; color: var(--primary-dark);">Catalogue Actif</h3>
+                        <div style="display: flex; gap: 15px;">
+                            <div class="search-box">
+                                <i class="ri-search-line"></i>
+                                <input type="text" id="product-search" placeholder="Rechercher un produit..."
+                                    oninput="filterAdminProducts()">
+                            </div>
+                            <button class="btn-pro" style="background: rgba(45, 106, 79, 0.05); color: var(--primary);"
+                                onclick="migrateLocalData()">
+                                <i class="ri-refresh-line"></i> Sync
+                            </button>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="check-all-products" onclick="toggleAllCheckboxes(this)">
+                                </th>
+                                <th>Image</th>
+                                <th>Nom</th>
+                                <th>Catégorie</th>
+                                <th>Prix</th>
+                                <th>Unité</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- JS Injection -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- BLOG VIEW -->
+            <div id="view-blog" class="tab-view" style="display: none;">
+                <div class="card">
+                    <div class="table-header">
+                        <h3 style="font-weight: 700; color: var(--primary-dark);">Articles & Conseils</h3>
+                        <button class="btn-pro btn-primary-pro" onclick="openBlogModal()">
+                            <i class="ri-edit-line"></i> Nouvel Article
+                        </button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Titre</th>
+                                <th>Tag</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="blog-table-body">
+                            <!-- JS Injection -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SETTINGS VIEW -->
+            <div id="view-settings" class="tab-view" style="display: none;">
+                <div class="card" style="padding: 2.5rem;">
+                    <h3>Paramètres Dashboard</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Personnalisez votre expérience
+                        d'administration.</p>
+
+                    <div class="input-group" style="max-width: 400px;">
+                        <label>Email du destinataire WhatsApp (Commandes)</label>
+                        <input type="text" value="+226 77 97 39 58" disabled>
+                    </div>
+
+                    <div style="margin-top: 2rem; display: flex; gap: 15px; flex-wrap: wrap;">
+                        <button class="btn-pro btn-primary-pro" onclick="exportDataToJSON()">
+                            <i class="ri-download-cloud-2-line"></i> Sauvegarder toute la base (JSON)
+                        </button>
+                        <button class="btn-pro" style="background: #fff1f2; color: #be123c; border: 1px solid #fecaca;"
+                            onclick="sanitizeDatabase()">
+                            <i class="ri-shield-check-line"></i> Nettoyer & Réparer la Base de Données
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Promo Modal -->
+    <div id="whatsapp-modal" class="admin-modal">
+        <div class="modal-body" style="width: 600px;">
+            <h3>📦 Générateur de Liste Promo</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Préparez votre annonce pour les groupes WhatsApp
+                en un clic.</p>
+
+            <div class="input-group">
+                <label>Intro de l'annonce</label>
+                <input type="text" id="wa-intro" value="🌿 Les arrivages de ce matin chez Oliv's Fresh !">
+            </div>
+
+            <div id="wa-preview"
+                style="background: #f0fdf4; border: 1px dashed #22c55e; padding: 1.5rem; border-radius: 12px; font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; white-space: pre-wrap; margin-bottom: 1.5rem; max-height: 300px; overflow-y: auto;">
+                <!-- Preview here -->
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-pro btn-whatsapp" style="flex: 1; justify-content: center;"
+                    onclick="copyWhatsAppPromo()">
+                    <i class="ri-file-copy-line"></i> Copier le message
+                </button>
+                <button class="btn-pro" style="background: #eee;" onclick="closeModals()">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="admin-modal">
+        <div class="modal-body">
+            <h3>Ajouter/Modifier Produit</h3>
+            <input type="hidden" id="p-id">
+            <div class="input-group">
+                <label>Nom</label>
+                <input type="text" id="p-name">
+            </div>
+            <div class="input-group">
+                <label>Catégorie</label>
+                <select id="p-category">
+                    <option value="fruit">Fruits</option>
+                    <option value="vegetable">Légumes</option>
+                    <option value="aromatic">Épices & Feuilles</option>
+                    <option value="tuber">Tubercules</option>
+                    <option value="processed">Jus & Découpés</option>
+                    <option value="subscription">Paniers & Abonnements</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Prix de Vente (FCFA)</label>
+                <input type="number" id="p-price">
+            </div>
+            <div class="input-group">
+                <label>Ancien Prix / Promo (FCFA - Optionnel)</label>
+                <input type="number" id="p-old-price" placeholder="Prix barré">
+            </div>
+            <div class="input-group">
+                <label>Tag Spécial (Ex: PROMO, ANTI-GASPI)</label>
+                <input type="text" id="p-tag" placeholder="Laissez vide si aucun">
+            </div>
+            <div class="input-group">
+                <label>Raison Anti-gaspi (Si tag ANTI-GASPI)</label>
+                <input type="text" id="p-anti-gaspi-reason" placeholder="Ex: Surplus de récolte, Aspect imparfait...">
+            </div>
+            <div class="input-group">
+                <label>Unité</label>
+                <select id="p-unit">
+                    <option value="kg">kg</option>
+                    <option value="unité">unité</option>
+                    <option value="botte">botte</option>
+                    <option value="barquette">barquette</option>
+                    <option value="1L">1L</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>URL Image (ou choisir un fichier)</label>
+                <input type="text" id="p-image" placeholder="https://...">
+                <input type="file" id="p-file" accept="image/*" style="margin-top: 10px; font-size: 0.85rem;">
+            </div>
+            <button class="btn-admin" onclick="saveProduct()">Enregistrer</button>
+            <button class="btn-admin" onclick="closeModals()"
+                style="background: #999; margin-top: 10px;">Annuler</button>
+        </div>
+    </div>
+
+    <!-- Blog Modal -->
+    <div id="blog-modal" class="admin-modal">
+        <div class="modal-body">
+            <h3>Ajouter/Modifier Article</h3>
+            <input type="hidden" id="b-id">
+            <div class="input-group">
+                <label>Titre</label>
+                <input type="text" id="b-title">
+            </div>
+            <div class="input-group">
+                <label>Tag</label>
+                <select id="b-tag">
+                    <option value="Santé">Santé</option>
+                    <option value="Recette">Recette</option>
+                    <option value="Conseil">Conseil</option>
+                    <option value="Saison">Saison</option>
+                    <option value="Producteurs">Producteurs</option>
+                    <option value="Événement">Événement</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Description Courte</label>
+                <textarea id="b-desc" rows="3"></textarea>
+            </div>
+            <div class="input-group">
+                <label>URL Image (ou choisir un fichier)</label>
+                <input type="text" id="b-image" placeholder="https://...">
+                <input type="file" id="b-file" accept="image/*" style="margin-top: 10px; font-size: 0.85rem;">
+            </div>
+            <button class="btn-admin" onclick="saveBlogPost()">Enregistrer</button>
+            <button class="btn-admin" onclick="closeModals()"
+                style="background: #999; margin-top: 10px;">Annuler</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs (Compat version) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    <script src="js/firebase-init.js"></script>
+
+    <script src="js/script.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
